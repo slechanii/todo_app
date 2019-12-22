@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import Todo from './Todo'
 
 // Class responsible for fetching, holding and  displaying all the todo lists 
 
@@ -9,35 +10,33 @@ class BoardView extends Component {
         this.state = {
             todos: [],
         };
-       this.todos_url = "http://localhost:8000/api/todo/";
+        this.todos_url = "http://localhost:8000/api/todo/";
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.getTodos();
     }
 
     getTodos = () => {
         axios.get(this.todos_url)
             .then((response) => {
-                this.setState({todos: response.data})
+                this.setState({ todos: response.data })
             })
             .catch(err => {
                 console.log(err);
             });
     };
 
-    displayTodos = () => {
-        this.state.todos.map(function(todo){
-            alert(todo.name);
-        });
-    };
-
     render() {
-        this.displayTodos();
+        const renderTodos = this.state.todos.map(function (todo) {
+            return <Todo name={todo.name} completed_tasks={todo.completed_tasks}
+                total_tasks={todo.total_tasks}></Todo>
+        });
         return (
             <div className="BoardView">
                 Boardview
-      </div>
+                {renderTodos}
+            </div>
         );
     }
 }
