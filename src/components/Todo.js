@@ -59,9 +59,9 @@ class Todo extends Component {
 
 
     addTask = () => {
-        axios.post(this.todo_post_url, "new_todo")
+        axios.post(this.todo_post_url, {name:"New Task" , completed:false, todo:this.props.todo_id})
         .then((response) =>{
-
+            this.getTodo();
         })
         .catch(err =>{
             console.log(err);
@@ -69,20 +69,16 @@ class Todo extends Component {
     };
 
     displayTodo = () => {
-        // alert(this.state.todo.name);
         return (
             <div>
                 <p>Todo list : {this.state.todo.name} </p>
                 <p> {this.state.todo.completed_tasks} / {this.state.todo.total_tasks} Completed Tasks</p>
-                <Button onClick={this.addTask()}>Add Task</Button>
+                <Button onClick={this.addTask}>Add Task</Button>
             </div>
         );
     };
 
     render() {
-        
-        // alert(this.state.tasks);
-        // alert(this.state.todo.name);
          const renderTasks = this.state.todo.tasks.map(function(task_id){
              return <Task task_id={task_id}></Task>
          }); 
