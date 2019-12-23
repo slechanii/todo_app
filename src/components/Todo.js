@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Task from './Task';
+import { Button } from 'semantic-ui-react';
 
 // Class responsible for fetching, holding and  displaying all the tasks of a single todo
 // Displaying the todo list and handling user input 
@@ -11,9 +12,10 @@ class Todo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // tasks: [],
+             todo: {name: "", completed_tasks: 0, total_tasks: 0, tasks:[]},
         };
-
+        this.todo_post_url = "http://localhost:8000/api/tasks/";
+        this.todo_url = "http://localhost:8000/api/todo/" + this.props.todo_id + "/";
     }
 
     updateTodo = () => {
@@ -28,8 +30,10 @@ class Todo extends Component {
     };
 
     componentWillMount() {
+        this.getTodo();
         // this.getTasks();
     };
+    
 
     // getTasks = () => {
     //     const tasks_url = "http://localhost:8000/api/tasks/"
@@ -42,22 +46,48 @@ class Todo extends Component {
     //         });
     // };
 
+    getTodo = () => {
+        axios.get(this.todo_url)
+            .then((response) => {
+                this.setState({ todo: response.data })
+                
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+
+    addTask = () => {
+        axios.post(this.todo_post_url, "new_todo")
+        .then((response) =>{
+
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+    };
+
     displayTodo = () => {
+        // alert(this.state.todo.name);
         return (
             <div>
-                <p>Todo list : {this.props.name} </p>
-                <p> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</p>
+                <p>Todo list : {this.state.todo.name} </p>
+                <p> {this.state.todo.completed_tasks} / {this.state.todo.total_tasks} Completed Tasks</p>
+                <Button onClick={this.addTask()}>Add Task</Button>
             </div>
         );
     };
 
     render() {
+        
         // alert(this.state.tasks);
-        const renderTasks = this.props.tasks.map(function(task_id){
-            return <Task task_id={task_id}></Task>
-        }); 
+        // alert(this.state.todo.name);
+         const renderTasks = this.state.todo.tasks.map(function(task_id){
+             return <Task task_id={task_id}></Task>
+         }); 
         return (
-            <div className="Todo">
+            <div className="todo">
                 {this.displayTodo()}
                 {renderTasks}
             </div>
