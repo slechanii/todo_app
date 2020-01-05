@@ -12,7 +12,7 @@ class Todo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-             todo: {name: "", completed_tasks: 0, total_tasks: 0, tasks:[]},
+             todo: {name: "", completed_tasks: 0, total_tasks: 0, tasks:[]},             
         };
         this.todo_post_url = "http://localhost:8000/api/tasks/";
         this.todo_url = "http://localhost:8000/api/todo/" + this.props.todo_id + "/";
@@ -47,9 +47,11 @@ class Todo extends Component {
     // };
 
     getTodo = () => {
+        // alert("render");
         axios.get(this.todo_url)
             .then((response) => {
                 this.setState({ todo: response.data })
+                // alert("New todos : " + JSON.stringify(this.state.todo));
                 
             })
             .catch(err => {
@@ -57,6 +59,7 @@ class Todo extends Component {
             });
     };
 
+    handleRefresh = () => this.getTodo();
 
     addTask = () => {
         axios.post(this.todo_post_url, {name:"New Task" , completed:false, todo:this.props.todo_id})
@@ -67,6 +70,20 @@ class Todo extends Component {
             console.log(err);
         });
     };
+
+    deleteTask = (id) => {
+         alert(id);
+        axios.delete("http://localhost:8000/api/tasks/" + id)
+            .then((response) => {
+                // this.setState({ task: {}})
+                // alert("destroy")
+                this.getTodo();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
 
     displayTodo = () => {
         return (
@@ -79,13 +96,15 @@ class Todo extends Component {
     };
 
     render() {
-         const renderTasks = this.state.todo.tasks.map(function(task_id){
-             return <Task task_id={task_id}></Task>
-         }); 
+        // alert("refresh")
+        const renderTasks = this.state.todo.tasks.map((task) =>
+        <Task key={task.id} task={task} deleteTask={this.deleteTask}></Task>)
+     
         return (
             <div className="todo">
                 {this.displayTodo()}
                 {renderTasks}
+                {/* <Task refreshTodo={this.getTodo} task_id="h"></Task> */}
             </div>
         );
     }

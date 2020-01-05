@@ -11,5 +11,6 @@ class TodoSerializer(serializers.ModelSerializer):
             model = Todo
             tasks = TaskSerializer(many=True, source='todo_set', read_only=True)
             fields = ('id', 'name', 'total_tasks', 'completed_tasks', 'tasks')
+            depth = 1
 
 

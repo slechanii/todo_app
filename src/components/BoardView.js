@@ -28,8 +28,9 @@ class BoardView extends Component {
     };
 
     render() {
+        // alert("resrefh");    
         const renderTodos = this.state.todos.map(function (todo) {
-            return <Todo todo_id={todo.id}></Todo>
+            return <Todo  key={todo.id} todo_id={todo.id}></Todo>
             // return <Todo name={todo.name} completed_tasks={todo.completed_tasks}
             //     total_tasks={todo.tasks.length} todo_id={todo.id} tasks={todo.tasks}></Todo>
         });
