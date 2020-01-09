@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Button } from 'semantic-ui-react';
+import TaskCheckBox from './TaskCheckBox';
 
 // Class responsible for fetching, holding and  displaying all the todo lists 
 
@@ -43,7 +44,7 @@ class Task extends Component {
                     Task name: {this.state.task.name}
                 </p>
                 <p>
-                    Completed: {String(this.state.task.completed)}
+                    <TaskCheckBox checked={this.state.task.completed == 'true'}></TaskCheckBox>
                 </p>
                 <p>
                     <Button onClick={this.deleteTask}>Delete task</Button>

@@ -12,7 +12,6 @@ class Todo(models.Model):
 
     def update_total_tasks(self):
         self.total_tasks = self.tasks.count()
-        print("NEW COUNT = " + str(self.total_tasks))
         self.save()
 
     def _str_(self):
