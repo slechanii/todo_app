@@ -18,41 +18,16 @@ class Todo extends Component {
         this.todo_url = "http://localhost:8000/api/todo/" + this.props.todo_id + "/";
     }
 
-    updateTodo = () => {
-        // const todo_url = "http://localhost:8000/api/tasks/" + this.props.todo_id + "/";  
-        // axios.patch(this.tasks_url, {total_tasks: this.props.total_tasks})
-        //     .then((response) => {
-        //         this.setState({ todos: response.data })
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
-    };
-
     componentWillMount() {
         this.getTodo();
-        // this.getTasks();
     };
     
 
-    // getTasks = () => {
-    //     const tasks_url = "http://localhost:8000/api/tasks/"
-    //     axios.get(this.tasks_url)
-    //         .then((response) => {
-    //             this.setState({ tasks: response.data })
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         });
-    // };
 
     getTodo = () => {
-        // alert("render");
         axios.get(this.todo_url)
             .then((response) => {
                 this.setState({ todo: response.data })
-                // alert("New todos : " + JSON.stringify(this.state.todo));
-                
             })
             .catch(err => {
                 console.log(err);
@@ -65,6 +40,7 @@ class Todo extends Component {
         axios.post(this.todo_post_url, {name:"New Task" , completed:false, todo:this.props.todo_id})
         .then((response) =>{
             this.getTodo();
+            this.props.refreshTodo();
         })
         .catch(err =>{
             console.log(err);
@@ -72,12 +48,10 @@ class Todo extends Component {
     };
 
     deleteTask = (id) => {
-         alert(id);
         axios.delete("http://localhost:8000/api/tasks/" + id)
             .then((response) => {
-                // this.setState({ task: {}})
-                // alert("destroy")
                 this.getTodo();
+                this.props.refreshTodo();
             })
             .catch(err => {
                 console.log(err);
@@ -89,14 +63,13 @@ class Todo extends Component {
         return (
             <div>
                 <p>Todo list : {this.state.todo.name} </p>
-                <p> {this.state.todo.completed_tasks} / {this.state.todo.total_tasks} Completed Tasks</p>
+                <p> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</p>
                 <Button onClick={this.addTask}>Add Task</Button>
             </div>
         );
     };
 
     render() {
-        // alert("refresh")
         const renderTasks = this.state.todo.tasks.map((task) =>
         <Task key={task.id} task={task} deleteTask={this.deleteTask}></Task>)
      
@@ -104,7 +77,6 @@ class Todo extends Component {
             <div className="todo">
                 {this.displayTodo()}
                 {renderTasks}
-                {/* <Task refreshTodo={this.getTodo} task_id="h"></Task> */}
             </div>
         );
     }

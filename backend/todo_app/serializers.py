@@ -9,7 +9,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class TodoSerializer(serializers.ModelSerializer):
         class Meta:
             model = Todo
-            tasks = TaskSerializer(many=True, source='todo_set', read_only=True)
+            tasks = TaskSerializer(many=True, read_only=True)
             fields = ('id', 'name', 'total_tasks', 'completed_tasks', 'tasks')
             depth = 1
 
