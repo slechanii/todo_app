@@ -22,8 +22,6 @@ class Todo extends Component {
         this.getTodo();
     };
     
-
-
     getTodo = () => {
         axios.get(this.todo_url)
             .then((response) => {
@@ -71,7 +69,7 @@ class Todo extends Component {
 
     render() {
         const renderTasks = this.state.todo.tasks.map((task) =>
-        <Task key={task.id} task={task} deleteTask={this.deleteTask}></Task>)
+        <Task key={task.id} refreshTodo={this.props.refreshTodo} task={task} deleteTask={this.deleteTask}></Task>)
      
         return (
             <div className="todo">

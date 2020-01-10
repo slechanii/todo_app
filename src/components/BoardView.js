@@ -17,6 +17,7 @@ class BoardView extends Component {
         this.getTodos();
     }
 
+    
     getTodos = () => {
         axios.get(this.todos_url)
             .then((response) => {
@@ -28,6 +29,7 @@ class BoardView extends Component {
     };
 
     render() {
+      
         const renderTodos = this.state.todos.map((todo) =>  {
             return <Todo key={todo.id} todo_id={todo.id} completed_tasks={todo.completed_tasks}
                          total_tasks={todo.total_tasks} refreshTodo={this.getTodos}></Todo>

@@ -3,15 +3,22 @@ import { Container, Checkbox } from 'semantic-ui-react';
 
 export default class TaskCheckBox extends Component {
 
-    render() {
-
+    constructor(props) {
+        super(props);
         this.state = {
-
+            completed: this.props.completed,
         };
-        
+    }
+
+    updateCompletedTask = () => {
+        this.setState({completed: !this.refs.completed.state.checked});
+        this.props.updateCompletedTask(!this.refs.completed.state.checked);
+    };
+
+    render() {
         return (
             <Container>
-                <Checkbox checked={this.props.completed}></Checkbox>
+                <Checkbox onChange={this.updateCompletedTask} ref="completed" checked={this.state.completed}></Checkbox>
             </Container>
         )
     }

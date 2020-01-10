@@ -10,9 +10,10 @@ class Task extends Component {
         super(props);
         // alert(JSON.stringify(this.props.task));
         this.state = {
-            task: { id:"", name: "", completed: "", todo:"" }
+            task: this.props.task,
         };
-        this.task_url = "http://localhost:8000/api/tasks/" + this.props.task_id + "/";
+        this.task_url = "http://localhost:8000/api/tasks/" + this.state.task.id + "/";
+        // alert(JSON.stringifythis.state.task);
     }
 
     componentDidMount() {
@@ -33,6 +34,18 @@ class Task extends Component {
             });
     };
 
+    updateCompletedTask = (is_completed) => {
+        
+        axios.patch(this.task_url, {completed:is_completed})
+        .catch(err => {
+            console.log(err);
+        })
+        .then(() => {
+            this.props.refreshTodo();
+        });
+       
+    };
+
 
     displayTask = () => {
         return (
@@ -44,7 +57,8 @@ class Task extends Component {
                     Task name: {this.state.task.name}
                 </p>
                 <p>
-                    <TaskCheckBox checked={this.state.task.completed == 'true'}></TaskCheckBox>
+                    <TaskCheckBox completed={this.state.task.completed} 
+                    updateCompletedTask={this.updateCompletedTask}></TaskCheckBox>
                 </p>
                 <p>
                     <Button onClick={this.deleteTask}>Delete task</Button>
