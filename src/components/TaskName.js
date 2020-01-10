@@ -8,21 +8,25 @@ export default class TaskName extends Component {
         this.state = {
             name: this.props.name,
             editing: false,
-            // previous_name: this.state.name,
+            previous_name: this.props.name,
         };
     }
 
 
     updateTaskName = () => {
         const new_name = String(this.state.name).trim();
-        // if (this.state.name != "")
-        this.setState({name: new_name});
-        this.setState({editing: false});
-        this.props.updateTaskName(this.state.name);
+        if (new_name == "")
+            this.setState({ name: this.state.previous_name });
+        else {
+            this.setState({ name: new_name });
+            this.setState({ previous_name: new_name });
+            this.props.updateTaskName(this.state.name);
+        }
+        this.setState({ editing: false });
     };
 
     setTaskName = (e) => {
-        this.setState({name: e.target.value});
+        this.setState({ name: e.target.value });
     };
 
     editTaskName = () => {
