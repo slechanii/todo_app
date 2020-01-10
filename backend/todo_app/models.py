@@ -13,7 +13,6 @@ class Todo(models.Model):
     def update_total_tasks(self):
         self.total_tasks = self.tasks.count()
         self.completed_tasks = self.tasks.filter(completed=True).count()
-        print(str(self.completed_tasks))
         self.save()
 
     def _str_(self):

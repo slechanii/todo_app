@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import { Button } from 'semantic-ui-react';
+import { Button, Container } from 'semantic-ui-react';
 import TaskCheckBox from './TaskCheckBox';
+import TaskName from './TaskName';
 
 // Class responsible for fetching, holding and  displaying all the todo lists 
 
@@ -48,30 +49,30 @@ class Task extends Component {
 
 
     displayTask = () => {
-        return (
-            <div>
-                <p>
+        return  (
+            <Container>
+                <Container>
                     ID : { this.state.task.id }
-                </p>
-                <p>
-                    Task name: {this.state.task.name}
-                </p>
-                <p>
-                    <TaskCheckBox completed={this.state.task.completed} 
+                </Container>
+                <Container>
+                    <TaskName name={this.state.task.name}></TaskName>
+                </Container>
+                <Container>
+                    <TaskCheckBox  completed={this.state.task.completed} 
                     updateCompletedTask={this.updateCompletedTask}></TaskCheckBox>
-                </p>
-                <p>
+                </Container>
+                <Container>
                     <Button onClick={this.deleteTask}>Delete task</Button>
-                </p>
-            </div>
+                </Container>
+            </Container>
         )
     };
 
     render(props) {
         return (
-            <div className="Task">
+            <Container className="Task">
                 {this.displayTask()}
-            </div>
+            </Container>
         );
     }
 }
