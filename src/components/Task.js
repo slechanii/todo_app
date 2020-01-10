@@ -47,6 +47,16 @@ class Task extends Component {
        
     };
 
+    updateTaskName = (new_name) => {
+        axios.patch(this.task_url, {name: new_name})
+        .catch(err => {
+            console.log(err);
+        })
+        .then(() => {
+            this.props.refreshTodo();
+        });
+    };
+
 
     displayTask = () => {
         return  (
@@ -55,7 +65,8 @@ class Task extends Component {
                     ID : { this.state.task.id }
                 </Container>
                 <Container>
-                    <TaskName name={this.state.task.name}></TaskName>
+                    <TaskName name={this.state.task.name}
+                     updateTaskName={this.updateTaskName}></TaskName>
                 </Container>
                 <Container>
                     <TaskCheckBox  completed={this.state.task.completed} 

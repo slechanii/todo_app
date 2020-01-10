@@ -27,3 +27,11 @@
 .todo{
     border: 1px solid red;
 }
+
+.task-name:hover{
+    cursor: pointer;
+}
+
+.send-task-name:hover{
+    cursor: pointer;
+} 
