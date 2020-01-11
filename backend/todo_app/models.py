@@ -9,7 +9,7 @@ class Todo(models.Model):
     name = models.CharField(max_length=120)
     total_tasks = models.IntegerField(default=0)
     completed_tasks = models.IntegerField(default=0)
-
+     
     def update_total_tasks(self):
         self.total_tasks = self.tasks.count()
         self.completed_tasks = self.tasks.filter(completed=True).count()
@@ -23,7 +23,6 @@ class Task(models.Model):
     name = models.CharField(max_length=120)
     completed = models.BooleanField(default=False)
     todo = models.ForeignKey(Todo, on_delete=models.CASCADE, related_name="tasks")
-
 
 @receiver(models.signals.post_save, sender=Task)
 def on_task_save(sender, instance, created, *args, **kwargs):

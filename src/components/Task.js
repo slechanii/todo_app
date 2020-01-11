@@ -14,7 +14,7 @@ class Task extends Component {
             task: this.props.task,
         };
         this.task_url = "http://localhost:8000/api/tasks/" + this.state.task.id + "/";
-        // alert(JSON.stringifythis.state.task);
+        // alert(JSON.stringify(this.state.task));
     }
 
     componentDidMount() {
@@ -61,9 +61,7 @@ class Task extends Component {
     displayTask = () => {
         return  (
             <Container>
-                <Container>
-                    ID : { this.state.task.id }
-                </Container>
+
                 <Container>
                     <TaskName name={this.state.task.name}
                      updateTaskName={this.updateTaskName}></TaskName>

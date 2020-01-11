@@ -9,6 +9,7 @@ export default class TaskName extends Component {
             name: this.props.name,
             editing: false,
             previous_name: this.props.name,
+           
         };
     }
 

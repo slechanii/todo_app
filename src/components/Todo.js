@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Task from './Task';
 import { Button } from 'semantic-ui-react';
+import NewTask from './NewTask';
 
 // Class responsible for fetching, holding and  displaying all the tasks of a single todo
 // Displaying the todo list and handling user input 
@@ -12,7 +13,8 @@ class Todo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-             todo: {name: "", completed_tasks: 0, total_tasks: 0, tasks:[]},             
+             todo: {name: "", completed_tasks: 0, total_tasks: 0, tasks:[]},
+             newTask: false,             
         };
         this.todo_post_url = "http://localhost:8000/api/tasks/";
         this.todo_url = "http://localhost:8000/api/todo/" + this.props.todo_id + "/";
@@ -34,8 +36,9 @@ class Todo extends Component {
 
     handleRefresh = () => this.getTodo();
 
-    addTask = () => {
-        axios.post(this.todo_post_url, {name:"New Task" , completed:false, todo:this.props.todo_id})
+    addTask = (new_task) => {
+
+        axios.post(this.todo_post_url, {name:new_task , completed:false, todo:this.props.todo_id})
         .then((response) =>{
             this.getTodo();
             this.props.refreshTodo();
@@ -43,6 +46,7 @@ class Todo extends Component {
         .catch(err =>{
             console.log(err);
         });
+        this.setState({newTask: false});
     };
 
     deleteTask = (id) => {
@@ -62,7 +66,7 @@ class Todo extends Component {
             <div>
                 <p>Todo list : {this.state.todo.name} </p>
                 <p> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</p>
-                <Button onClick={this.addTask}>Add Task</Button>
+                <Button onClick={() => {this.setState({newTask: true})}}>Add Task</Button>
             </div>
         );
     };
@@ -74,6 +78,8 @@ class Todo extends Component {
         return (
             <div className="todo">
                 {this.displayTodo()}
+                {this.state.newTask == true && 
+                <NewTask createNewTask={this.addTask}></NewTask>}
                 {renderTasks}
             </div>
         );
