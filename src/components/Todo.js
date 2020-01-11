@@ -46,7 +46,7 @@ class Todo extends Component {
         .catch(err =>{
             console.log(err);
         });
-        this.setState({newTask: false});
+        this.setState({newTask: false}); 
     };
 
     deleteTask = (id) => {

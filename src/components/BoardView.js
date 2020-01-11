@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import Todo from './Todo'
+import NewTodo from './NewTodo';
+import { Button, Container } from 'semantic-ui-react';
 
 // Class responsible for fetching, holding and  displaying all the todo lists 
 
@@ -9,6 +11,7 @@ class BoardView extends Component {
         super(props);
         this.state = {
             todos: [],
+            newTodo: false,
         };
         this.todos_url = "http://localhost:8000/api/todo/";
     }
@@ -17,7 +20,7 @@ class BoardView extends Component {
         this.getTodos();
     }
 
-    
+
     getTodos = () => {
         axios.get(this.todos_url)
             .then((response) => {
@@ -28,15 +31,27 @@ class BoardView extends Component {
             });
     };
 
+    createNewTodo = (todo_name) => {
+        axios.post(this.todos_url, {name: todo_name})
+            .then((res) => {
+                this.setState({ newTodo: false });
+                this.getTodos();
+            });
+    };
+
     render() {
-      
-        const renderTodos = this.state.todos.map((todo) =>  {
+
+        const renderTodos = this.state.todos.map((todo) => {
             return <Todo key={todo.id} todo_id={todo.id} completed_tasks={todo.completed_tasks}
-                         total_tasks={todo.total_tasks} refreshTodo={this.getTodos}></Todo>
+                total_tasks={todo.total_tasks} refreshTodo={this.getTodos}></Todo>
         });
         return (
             <div className="BoardView">
                 Boardview
+                <Container>
+                    <Button onClick={() => { this.setState({ newTodo: true }) }}>Create new Todo</Button>
+                </Container>
+                {this.state.newTodo && <NewTodo createNewTodo={this.createNewTodo}></NewTodo>}
                 {renderTodos}
             </div>
         );

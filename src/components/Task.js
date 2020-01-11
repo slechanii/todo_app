@@ -61,7 +61,6 @@ class Task extends Component {
     displayTask = () => {
         return  (
             <Container>
-
                 <Container>
                     <TaskName name={this.state.task.name}
                      updateTaskName={this.updateTaskName}></TaskName>
