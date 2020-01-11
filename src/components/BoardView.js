@@ -39,10 +39,17 @@ class BoardView extends Component {
             });
     };
 
+    destroyTodo = (todo_id) => {
+        axios.delete(this.todos_url + todo_id)
+        .then((res) => {
+            this.getTodos();
+        });
+    };
+
     render() {
 
         const renderTodos = this.state.todos.map((todo) => {
-            return <Todo key={todo.id} todo_id={todo.id} completed_tasks={todo.completed_tasks}
+            return <Todo destroyTodo={this.destroyTodo} key={todo.id} todo_id={todo.id} completed_tasks={todo.completed_tasks}
                 total_tasks={todo.total_tasks} refreshTodo={this.getTodos}></Todo>
         });
         return (
