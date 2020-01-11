@@ -49,7 +49,7 @@ class BoardView extends Component {
     render() {
 
         const renderTodos = this.state.todos.map((todo) => {
-            return <Todo destroyTodo={this.destroyTodo} key={todo.id} todo_id={todo.id} completed_tasks={todo.completed_tasks}
+            return <Todo todo_name={todo.name} destroyTodo={this.destroyTodo} key={todo.id} todo_id={todo.id} completed_tasks={todo.completed_tasks}
                 total_tasks={todo.total_tasks} refreshTodo={this.getTodos}></Todo>
         });
         return (

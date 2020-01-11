@@ -3,6 +3,7 @@ import axios from 'axios';
 import Task from './Task';
 import { Button, Container } from 'semantic-ui-react';
 import NewTask from './NewTask';
+import TodoName from './TodoName';
 
 // Class responsible for fetching, holding and  displaying all the tasks of a single todo
 // Displaying the todo list and handling user input 
@@ -64,16 +65,26 @@ class Todo extends Component {
         this.props.destroyTodo(this.props.todo_id);
     };
 
+    updateTodoName = (todo_name) => {
+        axios.patch(this.todo_url, {name: todo_name})
+        .then(() => {
+            this.getTodo();
+        });
+    };
+
     displayTodo = () => {
+ 
         return (
-            <div>
-                <p>Todo list : {this.state.todo.name} </p>
+            <Container>
+                <Container>
+                <TodoName name={this.props.todo_name} updateTodoName={this.updateTodoName}></TodoName>
+                </Container>
                 <Container>
                     <Button onClick={this.destroyTodo}>Destroy Todo</Button>
                 </Container>
-                <p> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</p>
+                <Container> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</Container>
                 <Button onClick={() => { this.setState({ newTask: true }) }}>Add Task</Button>
-            </div>
+            </Container>
         );
     };
 
