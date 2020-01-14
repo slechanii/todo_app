@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Task from './Task';
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Grid } from 'semantic-ui-react';
 import NewTask from './NewTask';
 import TodoName from './TodoName';
 
@@ -66,25 +66,27 @@ class Todo extends Component {
     };
 
     updateTodoName = (todo_name) => {
-        axios.patch(this.todo_url, {name: todo_name})
-        .then(() => {
-            this.getTodo();
-        });
+        axios.patch(this.todo_url, { name: todo_name })
+            .then(() => {
+                this.getTodo();
+            });
     };
 
     displayTodo = () => {
- 
+
         return (
-            <Container>
-                <Container>
-                <TodoName name={this.props.todo_name} updateTodoName={this.updateTodoName}></TodoName>
-                </Container>
-                <Container>
-                    <Button onClick={this.destroyTodo}>Destroy Todo</Button>
-                </Container>
-                <Container> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</Container>
-                <Button onClick={() => { this.setState({ newTask: true }) }}>Add Task</Button>
-            </Container>
+            <Grid.Column>
+                {/* <Container> */}
+                    <Container>
+                        <TodoName name={this.props.todo_name} updateTodoName={this.updateTodoName}></TodoName>
+                    </Container>
+                    <Container>
+                        <Button onClick={this.destroyTodo}>Destroy Todo</Button>
+                    </Container>
+                    <Container> {this.props.completed_tasks} / {this.props.total_tasks} Completed Tasks</Container>
+                    <Button onClick={() => { this.setState({ newTask: true }) }}>Add Task</Button>
+                {/* </Container> */}
+            </Grid.Column>
         );
     };
 

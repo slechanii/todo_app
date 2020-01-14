@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import Todo from './Todo'
 import NewTodo from './NewTodo';
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Grid } from 'semantic-ui-react';
 
 // Class responsible for fetching, holding and  displaying all the todo lists 
 
@@ -32,7 +32,7 @@ class BoardView extends Component {
     };
 
     createNewTodo = (todo_name) => {
-        axios.post(this.todos_url, {name: todo_name})
+        axios.post(this.todos_url, { name: todo_name })
             .then((res) => {
                 this.setState({ newTodo: false });
                 this.getTodos();
@@ -41,9 +41,9 @@ class BoardView extends Component {
 
     destroyTodo = (todo_id) => {
         axios.delete(this.todos_url + todo_id)
-        .then((res) => {
-            this.getTodos();
-        });
+            .then((res) => {
+                this.getTodos();
+            });
     };
 
     render() {
@@ -53,13 +53,19 @@ class BoardView extends Component {
                 total_tasks={todo.total_tasks} refreshTodo={this.getTodos}></Todo>
         });
         return (
-            <div className="BoardView">
+            <div className="boardview">
                 Boardview
                 <Container>
                     <Button onClick={() => { this.setState({ newTodo: true }) }}>Create new Todo</Button>
                 </Container>
                 {this.state.newTodo && <NewTodo createNewTodo={this.createNewTodo}></NewTodo>}
-                {renderTodos}
+                
+                    <Grid className="todo-grid">
+                        <Grid.Row className="todo-row">
+                        {renderTodos}
+                        </Grid.Row>
+                    </Grid>
+       
             </div>
         );
     }
